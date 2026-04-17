@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Avícola San Ignacio — Huevos Frescos en San Joaquín</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=IM+Fell+English+SC&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --verde:      #1a3a2a;
+      --verde-med:  #24503a;
+      --verde-claro:#2d6347;
+      --oro:        #c9a84c;
+      --oro-claro:  #e8c87a;
+      --crema:      #f5ead8;
+      --cafe:       #7a4a1e;
+      --rojo:       #b03a2e;
+      --blanco:     #fdf6e8;
+    }
+
+    html { scroll-behavior: smooth; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: var(--verde);
+      font-family: 'Libre Baskerville', Georgia, serif;
+      color: var(--crema);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg width='4' height='4' viewBox='0 0 4 4' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 3L3 1' stroke='%23ffffff' stroke-width='0.15' opacity='0.06'/%3E%3C/svg%3E");
+      pointer-events: none; z-index: 0;
+    }
+
+    section, header, footer, nav { position: relative; z-index: 1; }
+
+    /* ── NAVBAR ── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: #0b1e12ee;
+      backdrop-filter: blur(8px);
+      border-bottom: 2px solid var(--oro);
+      padding: 0 1.5rem;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 56px;
+    }
+    .nav-logo { display: flex; align-items: center; gap: 0.6rem; text-decoration: none; }
+    .nav-logo img { width: 36px; height: 36px; object-fit: contain; border-radius: 50%; border: 1px solid var(--oro); }
+    .nav-logo span { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 700; color: var(--oro-claro); letter-spacing: 0.04em; }
+    .nav-links { display: flex; align-items: center; gap: 0.2rem; list-style: none; }
+    .nav-links a { font-family: 'IM Fell English SC', serif; font-size: 0.82rem; letter-spacing: 0.08em; color: var(--crema); text-decoration: none; padding: 0.35rem 0.75rem; border-radius: 2px; transition: color 0.15s, background 0.15s; }
+    .nav-links a:hover { color: var(--oro-claro); background: rgba(201,168,76,0.12); }
+    .nav-toggle { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 4px; }
+    .nav-toggle span { display: block; width: 24px; height: 2px; background: var(--oro); transition: transform 0.25s, opacity 0.25s; }
+    .nav-toggle.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav-toggle.open span:nth-child(2) { opacity: 0; }
+    .nav-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+    @media (max-width: 680px) {
+      .nav-toggle { display: flex; }
+      .nav-links { display: none; flex-direction: column; gap: 0; position: absolute; top: 56px; left: 0; right: 0; background: #0b1e12f5; border-bottom: 2px solid var(--oro); padding: 0.5rem 0; }
+      .nav-links.open { display: flex; }
+      .nav-links a { padding: 0.7rem 1.5rem; font-size: 0.9rem; }
+    }
+
+    /* ── ORNAMENTOS ── */
+    .ornament { text-align: center; color: var(--oro); font-size: 1.4rem; letter-spacing: 0.5rem; margin: 0.5rem 0; }
+    .divider { display: flex; align-items: center; gap: 1rem; margin: 1.5rem auto; max-width: 600px; }
+    .divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: var(--oro); opacity: 0.6; }
+    .divider span { color: var(--oro); font-size: 1.2rem; white-space: nowrap; }
+
+    /* ── HERO ── */
+    header {
+      background: linear-gradient(180deg, #0e2419 0%, var(--verde) 100%);
+      border-bottom: 3px solid var(--oro);
+      padding: 3.5rem clamp(1.5rem, 5vw, 6rem) 3rem;
+      text-align: center;
+    }
+    .logo-badge {
+      display: inline-flex; flex-direction: column; align-items: center;
+      border: 3px double var(--oro);
+      padding: 1.2rem 2.5rem;
+      position: relative;
+    }
+    .logo-badge::before, .logo-badge::after { content: '◆'; position: absolute; color: var(--oro); font-size: 0.8rem; }
+    .logo-badge::before { top: -0.55rem; left: 50%; transform: translateX(-50%); }
+    .logo-badge::after  { bottom: -0.55rem; left: 50%; transform: translateX(-50%); }
+    .logo-img { width: 140px; height: 140px; object-fit: contain; margin-bottom: 0.5rem; filter: drop-shadow(0 2px 8px rgba(0,0,0,0.5)); }
+    .brand-name { font-family: 'Playfair Display', serif; font-size: clamp(2.2rem, 6vw, 4rem); font-weight: 900; color: var(--oro-claro); line-height: 1; letter-spacing: 0.05em; text-shadow: 2px 2px 0 rgba(0,0,0,0.5); }
+    .brand-sub { font-family: 'IM Fell English SC', serif; font-size: clamp(0.75rem, 2vw, 1rem); color: var(--oro); letter-spacing: 0.35em; margin-top: 0.3rem; }
+
+    .hero-headline {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.3rem, 3.5vw, 2.6rem);
+      color: var(--crema);
+      margin: 2rem auto 0.75rem;
+      max-width: 1100px;
+      line-height: 1.3;
+      font-weight: 900;
+    }
+    .hero-headline br + em,
+    .hero-headline em { display: block; }
+    .hero-headline em { color: var(--oro-claro); font-style: normal; }
+    .hero-sub {
+      font-size: 1.05rem;
+      color: var(--crema);
+      margin-bottom: 0.5rem;
+      opacity: 0.9;
+      max-width: 860px;
+      margin-left: auto; margin-right: auto;
+      line-height: 1.6;
+    }
+    .hero-sub strong { color: var(--oro); }
+    .hero-tags {
+      display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem;
+      margin: 1.2rem auto 1.8rem;
+      max-width: 560px;
+    }
+    .hero-tag {
+      font-family: 'IM Fell English SC', serif;
+      font-size: 0.78rem;
+      letter-spacing: 0.1em;
+      color: var(--oro);
+      border: 1px solid rgba(201,168,76,0.5);
+      padding: 0.25rem 0.8rem;
+      border-radius: 2px;
+    }
+
+    /* ── BOTONES ── */
+    .btn-wa {
+      display: inline-flex; align-items: center; gap: 0.75rem;
+      background: #25d366; color: #fff;
+      text-decoration: none;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem; font-weight: 700;
+      padding: 0.85rem 2.2rem;
+      border-radius: 3px; border: 2px solid #1aaa4f;
+      transition: transform 0.15s, box-shadow 0.15s;
+      box-shadow: 0 4px 20px rgba(37,211,102,0.3);
+    }
+    .btn-wa:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(37,211,102,0.45); }
+    .btn-wa svg { width: 22px; height: 22px; flex-shrink: 0; }
+    .btn-wa-sm {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: #25d366; color: #fff;
+      text-decoration: none;
+      font-family: 'Libre Baskerville', serif;
+      font-size: 0.9rem; font-weight: 700;
+      padding: 0.6rem 1.4rem;
+      border-radius: 3px; border: 2px solid #1aaa4f;
+      transition: transform 0.15s, box-shadow 0.15s;
+      box-shadow: 0 3px 12px rgba(37,211,102,0.3);
+      margin-top: 1.2rem;
+    }
+    .btn-wa-sm:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(37,211,102,0.45); }
+    .btn-wa-sm svg { width: 17px; height: 17px; flex-shrink: 0; }
+
+    /* ── MR EGG ── */
+    .mr-egg-guide {
+      display: flex; align-items: center; gap: 1.2rem;
+      background: rgba(0,0,0,0.25);
+      border: 1px solid rgba(201,168,76,0.35);
+      border-left: 4px solid var(--oro);
+      padding: 1rem 1.5rem;
+      max-width: 860px;
+      margin: 2rem auto 0;
+      border-radius: 4px;
+    }
+    .mr-egg-guide img { width: 110px; height: 110px; object-fit: contain; flex-shrink: 0; }
+    .mr-egg-guide .bubble { font-style: italic; font-size: 0.95rem; color: var(--crema); line-height: 1.55; }
+    .mr-egg-guide .bubble strong { color: var(--oro-claro); font-style: normal; }
+
+    /* ── SECCIONES COMUNES ── */
+    section { padding: 4rem clamp(1.5rem, 5vw, 6rem); }
+    .section-title { font-family: 'Playfair Display', serif; font-size: clamp(1.6rem, 4vw, 2.5rem); color: var(--oro-claro); text-align: center; margin-bottom: 0.25rem; text-shadow: 1px 2px 0 rgba(0,0,0,0.4); }
+    .section-intro { text-align: center; font-style: italic; color: var(--crema); opacity: 0.85; max-width: 680px; margin: 0 auto 2.5rem; line-height: 1.7; }
+
+    /* ── DIFERENCIADORES ── */
+    #porquenos { background: linear-gradient(180deg, var(--verde) 0%, var(--verde-med) 100%); }
+    .dif-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    @media (max-width: 680px) { .dif-grid { grid-template-columns: 1fr; } }
+    .dif-card {
+      background: rgba(0,0,0,0.2);
+      border: 1px solid rgba(201,168,76,0.3);
+      border-top: 3px solid var(--oro);
+      padding: 1.8rem 1.4rem;
+      text-align: center;
+    }
+    .dif-icon { font-size: 2.4rem; margin-bottom: 0.8rem; }
+    .dif-title { font-family: 'Playfair Display', serif; font-size: 1.05rem; font-weight: 700; color: var(--oro-claro); margin-bottom: 0.5rem; }
+    .dif-card p { font-size: 0.9rem; line-height: 1.65; opacity: 0.88; }
+
+    /* ── NOSOTROS ── */
+    #nosotros { background: linear-gradient(180deg, var(--verde-med) 0%, var(--verde) 100%); text-align: center; }
+    .stats-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 2rem; max-width: 1100px; margin: 0 auto 2rem; }
+    .stat { flex: 1; min-width: 160px; background: rgba(201,168,76,0.08); border: 1px solid rgba(201,168,76,0.3); padding: 1.5rem 1rem; }
+    .stat-num { font-family: 'Playfair Display', serif; font-size: 2.8rem; font-weight: 900; color: var(--oro-claro); }
+    .stat-desc { font-family: 'IM Fell English SC', serif; font-size: 0.85rem; letter-spacing: 0.1em; color: var(--crema); margin-top: 0.3rem; }
+    .nosotros-historia { max-width: 860px; margin: 0 auto 2rem; font-size: 0.97rem; line-height: 1.8; opacity: 0.88; }
+
+    /* ── GALERÍA ── */
+    #galeria { background: #0f2318; padding: 4rem 1rem; }
+    .carousel-wrap { max-width: 1100px; margin: 0 auto; position: relative; }
+    .carousel-track-outer { overflow: hidden; border: 2px solid rgba(201,168,76,0.45); border-radius: 4px; box-shadow: 0 8px 40px rgba(0,0,0,0.5); }
+    .carousel-track { display: flex; transition: transform 0.45s cubic-bezier(0.4,0,0.2,1); }
+    .carousel-track img { min-width: 100%; width: 100%; height: 420px; object-fit: contain; object-position: center; background: #0a1c10; display: block; }
+    .carousel-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(14,36,25,0.82); border: 2px solid var(--oro); color: var(--oro-claro); font-size: 1.6rem; width: 46px; height: 46px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.2s, transform 0.2s; z-index: 2; user-select: none; }
+    .carousel-btn:hover { background: var(--verde-med); transform: translateY(-50%) scale(1.1); }
+    .carousel-btn.prev { left: -22px; }
+    .carousel-btn.next { right: -22px; }
+    .carousel-dots { display: flex; justify-content: center; gap: 0.5rem; margin-top: 1.2rem; }
+    .carousel-dots button { width: 10px; height: 10px; border-radius: 50%; border: 2px solid var(--oro); background: transparent; cursor: pointer; transition: background 0.2s; padding: 0; }
+    .carousel-dots button.active { background: var(--oro); }
+    @media (max-width: 600px) {
+      .carousel-track img { height: 260px; }
+      .carousel-btn.prev { left: 4px; }
+      .carousel-btn.next { right: 4px; }
+    }
+
+    /* ── PROCESO ── */
+    #proceso { background: var(--verde-med); }
+    .proceso-timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      max-width: 860px;
+      margin: 0 auto;
+    }
+    .proceso-step {
+      display: flex;
+      gap: 1.5rem;
+      align-items: flex-start;
+      position: relative;
+    }
+    .proceso-step:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      left: 28px;
+      top: 56px;
+      width: 2px;
+      height: calc(100% - 8px);
+      background: linear-gradient(to bottom, var(--oro), rgba(201,168,76,0.1));
+    }
+    .proceso-dot {
+      flex-shrink: 0;
+      width: 56px; height: 56px;
+      background: var(--verde);
+      border: 2px solid var(--oro);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.6rem;
+      position: relative; z-index: 1;
+    }
+    .proceso-body { padding: 0.4rem 0 2.5rem; }
+    .proceso-time {
+      font-family: 'IM Fell English SC', serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      color: var(--oro);
+      margin-bottom: 0.2rem;
+    }
+    .proceso-title { font-family: 'Playfair Display', serif; font-size: 1.15rem; font-weight: 700; color: var(--oro-claro); margin-bottom: 0.4rem; }
+    .proceso-body p { font-size: 0.92rem; line-height: 1.65; opacity: 0.88; }
+    .proceso-cta {
+      text-align: center;
+      margin-top: 0.5rem;
+      padding: 1.5rem;
+      border: 1px solid rgba(201,168,76,0.3);
+      background: rgba(0,0,0,0.2);
+      border-radius: 4px;
+      max-width: 480px;
+      margin-left: auto; margin-right: auto;
+    }
+    .proceso-cta p { font-style: italic; font-size: 0.95rem; opacity: 0.88; }
+    .proceso-cta strong { color: var(--oro-claro); }
+
+    /* ── RESEÑAS ── */
+    #resenas { background: linear-gradient(180deg, var(--verde) 0%, #0f2318 100%); }
+    .resenas-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    @media (max-width: 700px) { .resenas-grid { grid-template-columns: 1fr; } }
+    @media (min-width: 701px) and (max-width: 900px) { .resenas-grid { grid-template-columns: repeat(2, 1fr); } }
+    .resena-card {
+      background: rgba(0,0,0,0.25);
+      border: 1px solid rgba(201,168,76,0.25);
+      border-top: 3px solid var(--oro);
+      padding: 1.6rem 1.4rem;
+      position: relative;
+    }
+    .resena-stars { color: var(--oro); font-size: 1rem; letter-spacing: 0.1em; margin-bottom: 0.75rem; }
+    .resena-texto { font-style: italic; font-size: 0.92rem; line-height: 1.65; opacity: 0.9; margin-bottom: 1rem; }
+    .resena-autor { display: flex; align-items: center; gap: 0.6rem; }
+    .resena-avatar {
+      width: 38px; height: 38px;
+      background: var(--verde-med);
+      border: 2px solid var(--oro);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--oro-claro);
+      flex-shrink: 0;
+    }
+    .resena-nombre { font-family: 'IM Fell English SC', serif; font-size: 0.85rem; letter-spacing: 0.08em; color: var(--oro-claro); }
+    .resena-barrio { font-size: 0.75rem; color: var(--crema); opacity: 0.6; margin-top: 0.1rem; }
+    .resenas-total {
+      text-align: center;
+      margin-top: 2rem;
+      font-family: 'IM Fell English SC', serif;
+      font-size: 0.9rem;
+      letter-spacing: 0.1em;
+      color: var(--oro);
+      opacity: 0.75;
+    }
+
+    /* ── PRECIOS ── */
+    #precios { background: linear-gradient(180deg, #0f2318 0%, var(--verde) 100%); }
+    .precio-grid { display: flex; flex-wrap: wrap; gap: 2rem; justify-content: center; max-width: 900px; margin: 0 auto; }
+    .precio-card {
+      background: linear-gradient(145deg, #8c5520, #5a3010);
+      border: 2px solid var(--oro);
+      padding: 2.2rem 2.5rem;
+      text-align: center;
+      flex: 1; min-width: 260px; max-width: 320px;
+      position: relative;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    }
+    .precio-card::after { content: ''; position: absolute; inset: 5px; border: 1px solid rgba(201,168,76,0.3); pointer-events: none; }
+    .precio-qty { font-family: 'Playfair Display', serif; font-size: 3.5rem; font-weight: 900; color: var(--oro-claro); line-height: 1; }
+    .precio-label { font-family: 'IM Fell English SC', serif; font-size: 1rem; color: var(--crema); letter-spacing: 0.1em; margin: 0.3rem 0 1rem; }
+    .precio-val { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 700; color: #fff; }
+    .precio-val span { display: block; font-size: 0.75rem; font-family: 'Libre Baskerville', serif; color: var(--oro); letter-spacing: 0.1em; margin-bottom: 0.2rem; font-style: italic; }
+    .precio-unitario { font-size: 0.82rem; color: var(--oro); margin-top: 0.4rem; font-style: italic; opacity: 0.85; }
+    .precio-vs { font-size: 0.75rem; color: var(--crema); opacity: 0.55; margin-top: 0.2rem; text-decoration: line-through; }
+    .precio-badge-ok {
+      display: inline-block;
+      background: var(--verde-claro);
+      color: #fff;
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      font-family: 'IM Fell English SC', serif;
+      padding: 0.25rem 0.7rem;
+      margin-top: 0.8rem;
+      border-radius: 2px;
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+
+    /* ── GARANTÍA ── */
+    #garantia { background: var(--verde-med); text-align: center; }
+    .garantia-box {
+      max-width: 860px;
+      margin: 0 auto;
+      background: rgba(0,0,0,0.2);
+      border: 2px solid rgba(201,168,76,0.4);
+      padding: 2.5rem 2rem;
+      position: relative;
+    }
+    .garantia-icon { font-size: 3.5rem; margin-bottom: 0.75rem; }
+    .garantia-box h3 { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--oro-claro); margin-bottom: 0.75rem; }
+    .garantia-box p { line-height: 1.75; opacity: 0.88; font-size: 0.97rem; }
+    .garantia-box strong { color: var(--oro-claro); }
+
+    /* ── ENTREGA ── */
+    #entrega { background: var(--verde); text-align: center; }
+    .entrega-box { max-width: 860px; margin: 0 auto; border: 2px solid rgba(201,168,76,0.4); padding: 2.5rem; background: rgba(0,0,0,0.2); }
+    .entrega-box .zona { font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--oro-claro); margin: 1rem 0 0.5rem; }
+    .entrega-box p { line-height: 1.75; opacity: 0.88; }
+    .entrega-icon { font-size: 3rem; margin-bottom: 0.5rem; }
+    .entrega-horario { display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; margin: 1.2rem 0; }
+    .entrega-h-item { text-align: center; }
+    .entrega-h-label { font-family: 'IM Fell English SC', serif; font-size: 0.75rem; letter-spacing: 0.12em; color: var(--oro); display: block; margin-bottom: 0.2rem; }
+    .entrega-h-val { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: var(--crema); font-weight: 700; }
+
+    /* ── CTA FINAL ── */
+    #cta { background: #0e2419; text-align: center; border-top: 3px solid var(--oro); padding: 4rem 1rem; }
+    .cta-headline { font-family: 'Playfair Display', serif; font-size: clamp(1.7rem, 4vw, 2.8rem); color: var(--oro-claro); font-weight: 900; margin-bottom: 0.5rem; line-height: 1.2; }
+    .cta-sub { font-size: 1rem; font-style: italic; opacity: 0.85; max-width: 480px; margin: 0 auto 1.5rem; line-height: 1.65; }
+    .cta-sub strong { color: var(--oro); font-style: normal; }
+    .cta-escasez {
+      display: inline-block;
+      background: rgba(176,58,46,0.25);
+      border: 1px solid var(--rojo);
+      color: #f1948a;
+      font-family: 'IM Fell English SC', serif;
+      font-size: 0.85rem;
+      letter-spacing: 0.1em;
+      padding: 0.4rem 1.2rem;
+      border-radius: 2px;
+      margin-bottom: 1.8rem;
+    }
+
+    /* ── FOOTER ── */
+    footer { background: #080f0b; border-top: 1px solid rgba(201,168,76,0.3); text-align: center; padding: 2rem 1rem; font-size: 0.82rem; color: rgba(245,234,216,0.5); }
+    footer strong { color: var(--oro); }
+    .footer-egg { width: 70px; height: 70px; object-fit: contain; margin-bottom: 0.5rem; }
+
+    /* ── WA FLOTANTE ── */
+    .wa-float { position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 999; }
+    .wa-float a { display: flex; align-items: center; justify-content: center; width: 58px; height: 58px; background: #25d366; border-radius: 50%; box-shadow: 0 4px 20px rgba(37,211,102,0.5); transition: transform 0.2s, box-shadow 0.2s; }
+    .wa-float a:hover { transform: scale(1.1); box-shadow: 0 6px 28px rgba(37,211,102,0.7); }
+    .wa-float svg { width: 30px; height: 30px; }
+
+    /* ── RESPONSIVE MISC ── */
+    @media (max-width: 500px) {
+      .precio-card { padding: 1.6rem 1.5rem; }
+      .logo-badge { padding: 1rem 1.5rem; }
+      .mr-egg-guide { flex-direction: column; text-align: center; }
+      .entrega-horario { gap: 1rem; }
+    }
+  </style>
+</head>
+<body id="top">
+
+<!-- ═══ NAVBAR ═══ -->
+<nav>
+  <a class="nav-logo" href="#top">
+    <img src="Logo avicola.jpeg" alt="Logo">
+    <span>San Ignacio</span>
+  </a>
+  <button class="nav-toggle" id="navToggle" aria-label="Menú">
+    <span></span><span></span><span></span>
+  </button>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#porquenos">Por qué elegirnos</a></li>
+    <li><a href="#galeria">Gallinas</a></li>
+    <li><a href="#proceso">Del gallinero</a></li>
+    <li><a href="#resenas">Reseñas</a></li>
+    <li><a href="#precios">Precios</a></li>
+    <li><a href="#entrega">Entrega</a></li>
+    <li><a href="#cta">Pedir</a></li>
+  </ul>
+</nav>
+
+
+<!-- ═══ HERO ═══ -->
+<header>
+  <div class="logo-badge">
+    <img class="logo-img" src="Logo avicola.jpeg" alt="Logo Avícola San Ignacio">
+    <div class="brand-sub">— Avícola —</div>
+    <div class="brand-name">SAN IGNACIO</div>
+    <div class="brand-sub">Huevos Frescos · San Joaquín</div>
+  </div>
+
+  <div class="divider"><span>✦ ✦ ✦</span></div>
+
+  <h1 class="hero-headline">
+    El huevo más fresco de San Joaquín<br>
+    <em>Llega a tu puerta hoy mismo</em>
+  </h1>
+  <p class="hero-sub">
+    Recogido esta mañana. En tu mesa esta tarde.<br>
+    Sin intermediarios, sin cadena de frío.
+  </p>
+
+  <a class="btn-wa"
+     href="https://wa.me/56945907309?text=Hola!%20Quiero%20hacer%20un%20pedido%20de%20huevos%20para%20hoy%20%F0%9F%A5%9A%20%C2%BFTienen%20disponibilidad%3F"
+     target="_blank" rel="noopener">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.117.554 4.103 1.523 5.828L.057 23.214a.75.75 0 00.93.93l5.396-1.467A11.952 11.952 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.81 9.81 0 01-4.962-1.345l-.356-.212-3.688 1.002 1.003-3.674-.231-.366A9.818 9.818 0 012.182 12C2.182 6.57 6.57 2.182 12 2.182S21.818 6.57 21.818 12 17.43 21.818 12 21.818z"/></svg>
+    Reservar mis huevos para hoy
+  </a>
+
+  <div class="ornament" style="margin-top:2rem;">⸻⸻ ✦ ⸻⸻</div>
+</header>
+
+
+<!-- ═══ POR QUÉ ELEGIRNOS ═══ -->
+<section id="porquenos">
+  <!-- Mr Egg #1 — bienvenida con urgencia -->
+  <div class="mr-egg-guide" style="margin-bottom:2.5rem;">
+    <img src="Mr Egg.png" alt="Mr Egg">
+    <div class="bubble">
+      ¡Hola! Soy <strong>Mr. Egg</strong> 🥚 — Producimos máximo 45 huevos al día.<br>
+      <strong>Cuando se acaban, no hay más hasta mañana.</strong> ¡Escríbenos antes de las 12!
+    </div>
+  </div>
+
+  <h2 class="section-title">¿Por qué elegirnos?</h2>
+  <div class="divider"><span>❧ Lo que nos hace distintos ❧</span></div>
+  <p class="section-intro">El supermercado te vende huevos de hace dos semanas. Nosotros te vendemos los de esta mañana.</p>
+
+  <div class="dif-grid">
+    <div class="dif-card">
+      <div class="dif-icon">⏱️</div>
+      <div class="dif-title">Menos de 24 horas</div>
+      <p>Desde que el huevo es puesto hasta que llega a tu cocina pasan menos de 24 horas. Ningún supermercado puede ofrecer eso.</p>
+    </div>
+    <div class="dif-card">
+      <div class="dif-icon">🤝</div>
+      <div class="dif-title">Sin intermediarios</div>
+      <p>Comprás directo al productor. Sin distribuidores, sin markup de cadena. Por eso el precio es justo y la frescura, máxima.</p>
+    </div>
+    <div class="dif-card">
+      <div class="dif-icon">🏡</div>
+      <div class="dif-title">Tu vecino de San Joaquín</div>
+      <p>Somos de acá. El dinero que gastás queda en el barrio y ayuda a una familia local, no a una corporación.</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══ GALERÍA / CARRUSEL ═══ -->
+<section id="galeria">
+  <h2 class="section-title">Conoce a las que ponen tus huevos</h2>
+  <div class="divider"><span>❧ La familia San Ignacio ❧</span></div>
+  <p class="section-intro">Criadas al aire libre, sin hacinamiento. Gallinas felices y bien alimentadas — eso se nota en cada huevo.</p>
+
+  <div class="carousel-wrap">
+    <div class="carousel-track-outer">
+      <div class="carousel-track" id="carouselTrack">
+        <img src="Gallina 1.jpeg" alt="Gallinas de Avícola San Ignacio">
+        <img src="Gallina 2.jpeg" alt="Gallinas de Avícola San Ignacio">
+        <img src="Gallina 3.jpeg" alt="Gallinas de Avícola San Ignacio">
+        <img src="Gallina 4.jpeg" alt="Gallinas de Avícola San Ignacio">
+        <img src="Gallina 5.jpeg" alt="Gallinas de Avícola San Ignacio">
+        <img src="Gallina 6.jpeg" alt="Gallinas de Avícola San Ignacio">
+      </div>
+    </div>
+    <button class="carousel-btn prev" id="prevBtn" aria-label="Anterior">&#8249;</button>
+    <button class="carousel-btn next" id="nextBtn" aria-label="Siguiente">&#8250;</button>
+    <div class="carousel-dots" id="carouselDots"></div>
+  </div>
+
+  <!-- Mr Egg #2 — presentando las gallinas -->
+  <div class="mr-egg-guide" style="margin-top:2.5rem;">
+    <img src="Mr Egg.png" alt="Mr Egg">
+    <div class="bubble">
+      ¡Estas son mis compañeras! Las ves bien gorditas y contentas.<br>
+      <strong>Gallina sana, huevo rico.</strong> Así de simple. 🐔
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══ NOSOTROS ═══ -->
+<section id="nosotros">
+  <h2 class="section-title">Nuestra Granja</h2>
+  <div class="divider"><span>❧ Una historia familiar ❧</span></div>
+
+  <p class="nosotros-historia">
+    Somos una familia de San Joaquín que decidió hacer las cosas bien: criar gallinas con dedicación,
+    darles espacio, comida de calidad y cariño. Lo que empezó como un proyecto casero se convirtió
+    en nuestra forma de vida y en una forma de servir a nuestro barrio.<br><br>
+    Hoy, cada mañana recogemos los huevos a mano y los entregamos el mismo día.
+    Conocemos a cada gallina por nombre — y eso se nota en el producto.
+  </p>
+
+  <div class="stats-row">
+    <div class="stat">
+      <div class="stat-num">50</div>
+      <div class="stat-desc">Gallinas Cuidadas a Mano</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">40–45</div>
+      <div class="stat-desc">Huevos Frescos por Día</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">100%</div>
+      <div class="stat-desc">Producción Local · Sin Cadena de Frío</div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══ PROCESO ═══ -->
+<section id="proceso">
+  <h2 class="section-title">Del gallinero a tu mesa en menos de 24 horas</h2>
+  <div class="divider"><span>❧ Así funciona ❧</span></div>
+  <p class="section-intro">Lo que hace la diferencia no es solo la gallina — es la rapidez con que ese huevo llega a tu cocina.</p>
+
+  <div class="proceso-timeline">
+    <div class="proceso-step">
+      <div class="proceso-dot">🌅</div>
+      <div class="proceso-body">
+        <div class="proceso-time">Esta mañana</div>
+        <div class="proceso-title">Las gallinas pusieron tu huevo</div>
+        <p>Cada mañana nuestras 50 gallinas ponen entre 40 y 45 huevos. Los revisamos uno a uno: que estén limpios, sin fisuras, perfectos para tu familia.</p>
+      </div>
+    </div>
+    <div class="proceso-step">
+      <div class="proceso-dot">📦</div>
+      <div class="proceso-body">
+        <div class="proceso-time">Antes del mediodía</div>
+        <div class="proceso-title">Empacados y listos para salir</div>
+        <p>Sin cámara de frío, sin conservantes, sin días de espera. Empacamos los huevos del día y los tenemos listos para entrega. Frescura real, no de etiqueta.</p>
+      </div>
+    </div>
+    <div class="proceso-step">
+      <div class="proceso-dot">💬</div>
+      <div class="proceso-body">
+        <div class="proceso-time">Tú nos escribes</div>
+        <div class="proceso-title">Pedido por WhatsApp en segundos</div>
+        <p>Sin formularios, sin cuentas, sin esperas. Un mensaje y coordinamos el horario que te acomode. Así de fácil.</p>
+      </div>
+    </div>
+    <div class="proceso-step">
+      <div class="proceso-dot">🚪</div>
+      <div class="proceso-body">
+        <div class="proceso-time">Hoy mismo</div>
+        <div class="proceso-title">Llegan a tu puerta</div>
+        <p>Entregamos en la tarde dentro de San Joaquín. Pagas al recibir — nada por adelantado. Si no quedas satisfecho, te devolvemos el dinero.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="proceso-cta">
+    <p>¿Quieres los huevos de hoy?<br><strong>Escríbenos antes de las 12h y los tienes en la tarde.</strong></p>
+    <a class="btn-wa-sm"
+       href="https://wa.me/56945907309?text=Hola!%20Quiero%20pedir%20huevos%20para%20hoy%20%F0%9F%A5%9A%20%C2%BFHay%20disponibilidad%3F"
+       target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.117.554 4.103 1.523 5.828L.057 23.214a.75.75 0 00.93.93l5.396-1.467A11.952 11.952 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.81 9.81 0 01-4.962-1.345l-.356-.212-3.688 1.002 1.003-3.674-.231-.366A9.818 9.818 0 012.182 12C2.182 6.57 6.57 2.182 12 2.182S21.818 6.57 21.818 12 17.43 21.818 12 21.818z"/></svg>
+      Pedir para hoy
+    </a>
+  </div>
+</section>
+
+
+<!-- ═══ RESEÑAS ═══ -->
+<section id="resenas">
+  <h2 class="section-title">Lo que dicen nuestros vecinos</h2>
+  <div class="divider"><span>❧ Clientes de San Joaquín ❧</span></div>
+  <p class="section-intro">Más de 80 familias del barrio ya pidieron sus huevos con nosotros. Esto es lo que nos cuentan.</p>
+
+  <div class="resenas-grid">
+    <div class="resena-card">
+      <div class="resena-stars">★★★★★</div>
+      <p class="resena-texto">"Nunca pensé que hubiera tanta diferencia con los del super. La yema es naranja intensa, el sabor es otro mundo. Mis hijos ahora solo quieren estos."</p>
+      <div class="resena-autor">
+        <div class="resena-avatar">M</div>
+        <div>
+          <div class="resena-nombre">María Jesús V.</div>
+          <div class="resena-barrio">Villa San Joaquín</div>
+        </div>
+      </div>
+    </div>
+    <div class="resena-card">
+      <div class="resena-stars">★★★★★</div>
+      <p class="resena-texto">"Llevamos 3 meses pidiendo cada semana. Son súper puntuales y siempre fresquísimos. Además el trato es muy amable, se nota que es familia de verdad."</p>
+      <div class="resena-autor">
+        <div class="resena-avatar">R</div>
+        <div>
+          <div class="resena-nombre">Roberto A.</div>
+          <div class="resena-barrio">Población Lo Valledor</div>
+        </div>
+      </div>
+    </div>
+    <div class="resena-card">
+      <div class="resena-stars">★★★★★</div>
+      <p class="resena-texto">"Los pedí la primera vez por curiosidad y ya no vuelvo al supermercado. A $200 el huevo y tan frescos, no tiene competencia. Los recomiendo a todo el mundo."</p>
+      <div class="resena-autor">
+        <div class="resena-avatar">C</div>
+        <div>
+          <div class="resena-nombre">Claudia P.</div>
+          <div class="resena-barrio">Barrio Unión</div>
+        </div>
+      </div>
+    </div>
+    <div class="resena-card">
+      <div class="resena-stars">★★★★★</div>
+      <p class="resena-texto">"Trabajo en un café y los uso para todo — tortillas, queques, desayunos. La diferencia de calidad es visible. Los clientes me preguntan qué huevo uso."</p>
+      <div class="resena-autor">
+        <div class="resena-avatar">F</div>
+        <div>
+          <div class="resena-nombre">Felipe S.</div>
+          <div class="resena-barrio">Local en San Joaquín</div>
+        </div>
+      </div>
+    </div>
+    <div class="resena-card">
+      <div class="resena-stars">★★★★★</div>
+      <p class="resena-texto">"Le compré los primeros 15 por probar. Cuando vi cómo quedó el revuelto supe que no era broma. Ahora les pido 30 cada semana. Muy confiables."</p>
+      <div class="resena-autor">
+        <div class="resena-avatar">A</div>
+        <div>
+          <div class="resena-nombre">Alejandra M.</div>
+          <div class="resena-barrio">Villa O'Higgins</div>
+        </div>
+      </div>
+    </div>
+    <div class="resena-card">
+      <div class="resena-stars">★★★★★</div>
+      <p class="resena-texto">"Me enteré por una vecina y la verdad es que tiene razón. Llegan rápido, el WhatsApp es al tiro, y el huevo se nota fresquísimo. Familia comprometida con lo que vende."</p>
+      <div class="resena-autor">
+        <div class="resena-avatar">P</div>
+        <div>
+          <div class="resena-nombre">Patricia L.</div>
+          <div class="resena-barrio">Pasaje Las Rosas</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <p class="resenas-total">✦ Más de 80 familias de San Joaquín ya son clientes habituales ✦</p>
+</section>
+
+
+<!-- ═══ PRECIOS ═══ -->
+<section id="precios">
+  <h2 class="section-title">Precios</h2>
+  <div class="divider"><span>❧ Sin letra chica ❧</span></div>
+  <p class="section-intro">Producción directa = precio justo. Compara con el supermercado y verás la diferencia.</p>
+
+  <div class="precio-grid">
+    <div class="precio-card">
+      <div class="precio-qty">15</div>
+      <div class="precio-label">Huevos Frescos</div>
+      <div class="precio-val">
+        <span>Por solo</span>
+        $3.000
+      </div>
+      <div class="precio-unitario">= $200 por huevo</div>
+      <div class="precio-vs">Supermercado: $350–$400 c/u</div>
+      <div class="precio-badge-ok">✓ Disponible hoy</div>
+      <br>
+      <a class="btn-wa-sm"
+         href="https://wa.me/56945907309?text=Hola!%20Quiero%20pedir%2015%20huevos%20%F0%9F%A5%9A%20%C2%BFTienen%20disponibilidad%20para%20hoy%3F"
+         target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.117.554 4.103 1.523 5.828L.057 23.214a.75.75 0 00.93.93l5.396-1.467A11.952 11.952 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.81 9.81 0 01-4.962-1.345l-.356-.212-3.688 1.002 1.003-3.674-.231-.366A9.818 9.818 0 012.182 12C2.182 6.57 6.57 2.182 12 2.182S21.818 6.57 21.818 12 17.43 21.818 12 21.818z"/></svg>
+        Quiero 15 huevos
+      </a>
+    </div>
+    <div class="precio-card">
+      <div class="precio-qty">30</div>
+      <div class="precio-label">Huevos Frescos</div>
+      <div class="precio-val">
+        <span>Por solo</span>
+        $6.000
+      </div>
+      <div class="precio-unitario">= $200 por huevo</div>
+      <div class="precio-vs">Supermercado: $10.500–$12.000</div>
+      <div class="precio-badge-ok">✓ Disponible hoy</div>
+      <br>
+      <a class="btn-wa-sm"
+         href="https://wa.me/56945907309?text=Hola!%20Quiero%20pedir%2030%20huevos%20%F0%9F%A5%9A%20%C2%BFTienen%20disponibilidad%20para%20hoy%3F"
+         target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.117.554 4.103 1.523 5.828L.057 23.214a.75.75 0 00.93.93l5.396-1.467A11.952 11.952 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.81 9.81 0 01-4.962-1.345l-.356-.212-3.688 1.002 1.003-3.674-.231-.366A9.818 9.818 0 012.182 12C2.182 6.57 6.57 2.182 12 2.182S21.818 6.57 21.818 12 17.43 21.818 12 21.818z"/></svg>
+        Quiero 30 huevos
+      </a>
+    </div>
+  </div>
+  <p style="text-align:center;margin-top:1.5rem;font-size:0.82rem;opacity:0.6;font-style:italic;">Pago al recibir · Sin cobro de despacho dentro de San Joaquín</p>
+</section>
+
+
+<!-- ═══ GARANTÍA ═══ -->
+<section id="garantia">
+  <h2 class="section-title">Nuestra Garantía</h2>
+  <div class="divider"><span>❧ Tu tranquilidad primero ❧</span></div>
+
+  <div class="garantia-box">
+    <div class="garantia-icon">🛡️</div>
+    <h3>Si no te convencen, te devolvemos el dinero</h3>
+    <p>
+      Estamos tan seguros de la calidad de nuestros huevos que te ofrecemos una garantía simple:
+      si al recibir tu pedido no quedas satisfecho con la frescura o el estado de los huevos,
+      <strong>te devolvemos el dinero completo, sin preguntas.</strong><br><br>
+      Llevamos años cuidando a nuestras gallinas con dedicación.
+      No necesitamos ocultarte nada — la calidad habla sola.
+    </p>
+  </div>
+
+  <!-- Mr Egg #3 — garantía -->
+  <div class="mr-egg-guide" style="margin-top:2rem;">
+    <img src="Mr Egg.png" alt="Mr Egg">
+    <div class="bubble">
+      Yo pongo mi nombre en cada huevo. 🥚<br>
+      <strong>Si no te gusta, te devolvemos la plata.</strong> Eso es confianza de verdad.
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══ ENTREGA ═══ -->
+<section id="entrega">
+  <h2 class="section-title">Entrega a domicilio en San Joaquín</h2>
+  <div class="divider"><span>❧ Rápido y sin complicaciones ❧</span></div>
+  <div class="entrega-box">
+    <div class="entrega-icon">📍</div>
+    <div class="zona">San Joaquín</div>
+
+    <div class="entrega-horario">
+      <div class="entrega-h-item">
+        <span class="entrega-h-label">Horario de pedidos</span>
+        <span class="entrega-h-val">Hasta las 12h</span>
+      </div>
+      <div class="entrega-h-item">
+        <span class="entrega-h-label">Entrega estimada</span>
+        <span class="entrega-h-val">En la tarde</span>
+      </div>
+      <div class="entrega-h-item">
+        <span class="entrega-h-label">Costo de despacho</span>
+        <span class="entrega-h-val">Sin costo</span>
+      </div>
+    </div>
+
+    <p>Hacemos entregas en toda la <strong>comuna de San Joaquín</strong>. Coordina el horario exacto directo por WhatsApp — llegamos cuando te sea más cómodo.</p>
+    <br>
+    <a class="btn-wa-sm"
+       href="https://wa.me/56945907309?text=Hola!%20Quiero%20saber%20si%20hacen%20entrega%20en%20mi%20direcci%C3%B3n%20%F0%9F%A5%9A"
+       target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.117.554 4.103 1.523 5.828L.057 23.214a.75.75 0 00.93.93l5.396-1.467A11.952 11.952 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.81 9.81 0 01-4.962-1.345l-.356-.212-3.688 1.002 1.003-3.674-.231-.366A9.818 9.818 0 012.182 12C2.182 6.57 6.57 2.182 12 2.182S21.818 6.57 21.818 12 17.43 21.818 12 21.818z"/></svg>
+      Consultar entrega en mi dirección
+    </a>
+  </div>
+</section>
+
+
+<!-- ═══ CTA FINAL ═══ -->
+<section id="cta">
+  <div class="cta-headline">Los huevos de hoy<br>se acaban hoy</div>
+  <p class="cta-sub">
+    Producimos <strong>máximo 45 huevos al día</strong>. Cuando se acaban, no hay más hasta mañana.<br>
+    Asegura los tuyos ahora.
+  </p>
+  <div class="cta-escasez">⚠ Producción limitada · Pedidos hasta las 12h</div>
+  <br>
+  <a class="btn-wa"
+     href="https://wa.me/56945907309?text=Hola!%20Quiero%20reservar%20mis%20huevos%20para%20hoy%20%F0%9F%A5%9A%20%C2%BFTienen%20disponibilidad%3F"
+     target="_blank" rel="noopener">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.117.554 4.103 1.523 5.828L.057 23.214a.75.75 0 00.93.93l5.396-1.467A11.952 11.952 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.81 9.81 0 01-4.962-1.345l-.356-.212-3.688 1.002 1.003-3.674-.231-.366A9.818 9.818 0 012.182 12C2.182 6.57 6.57 2.182 12 2.182S21.818 6.57 21.818 12 17.43 21.818 12 21.818z"/></svg>
+    Reservar mis huevos ahora — +56 9 4590 7309
+  </a>
+  <p style="margin-top:1rem;font-size:0.8rem;opacity:0.5;font-style:italic;">Pago al recibir · Sin costo de despacho · Garantía de frescura</p>
+</section>
+
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <img class="footer-egg" src="Mr Egg.png" alt="Mr Egg">
+  <p><strong>Avícola San Ignacio</strong> · San Joaquín, Santiago de Chile</p>
+  <p style="margin-top:0.4rem;">WhatsApp: <strong>+56 9 4590 7309</strong></p>
+  <p style="margin-top:0.3rem;font-style:italic;opacity:0.6;">— <strong>Mr. Egg</strong> te desea un buen provecho 🥚 —</p>
+</footer>
+
+
+<!-- ═══ BOTÓN FLOTANTE WA ═══ -->
+<div class="wa-float">
+  <a href="https://wa.me/56945907309?text=Hola!%20Quiero%20hacer%20un%20pedido%20de%20huevos%20%F0%9F%A5%9A"
+     target="_blank" rel="noopener" title="Pedir por WhatsApp">
+    <svg viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.117.554 4.103 1.523 5.828L.057 23.214a.75.75 0 00.93.93l5.396-1.467A11.952 11.952 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.81 9.81 0 01-4.962-1.345l-.356-.212-3.688 1.002 1.003-3.674-.231-.366A9.818 9.818 0 012.182 12C2.182 6.57 6.57 2.182 12 2.182S21.818 6.57 21.818 12 17.43 21.818 12 21.818z"/></svg>
+  </a>
+</div>
+
+
+<!-- ═══ SCRIPTS ═══ -->
+<script>
+  // Navbar hamburguesa
+  (function () {
+    const toggle = document.getElementById('navToggle');
+    const links  = document.getElementById('navLinks');
+    toggle.addEventListener('click', () => {
+      toggle.classList.toggle('open');
+      links.classList.toggle('open');
+    });
+    links.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => {
+        toggle.classList.remove('open');
+        links.classList.remove('open');
+      });
+    });
+  })();
+
+  // Carrusel
+  (function () {
+    const track  = document.getElementById('carouselTrack');
+    const imgs   = track.querySelectorAll('img');
+    const total  = imgs.length;
+    const dotsEl = document.getElementById('carouselDots');
+    let current  = 0;
+    let timer;
+
+    imgs.forEach((_, i) => {
+      const btn = document.createElement('button');
+      if (i === 0) btn.classList.add('active');
+      btn.addEventListener('click', () => goTo(i));
+      dotsEl.appendChild(btn);
+    });
+
+    function goTo(n) {
+      current = (n + total) % total;
+      track.style.transform = `translateX(-${current * 100}%)`;
+      dotsEl.querySelectorAll('button').forEach((b, i) =>
+        b.classList.toggle('active', i === current));
+      resetTimer();
+    }
+
+    function resetTimer() {
+      clearInterval(timer);
+      timer = setInterval(() => goTo(current + 1), 4000);
+    }
+
+    document.getElementById('prevBtn').addEventListener('click', () => goTo(current - 1));
+    document.getElementById('nextBtn').addEventListener('click', () => goTo(current + 1));
+
+    let startX = 0;
+    track.parentElement.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, {passive:true});
+    track.parentElement.addEventListener('touchend',   e => {
+      const diff = startX - e.changedTouches[0].clientX;
+      if (Math.abs(diff) > 40) goTo(current + (diff > 0 ? 1 : -1));
+    });
+
+    resetTimer();
+  })();
+</script>
+
+</body>
+</html>
